@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Staff Management System
+  version: 0.0.1
+  servers:
+  - url: http://localhost:8080
+paths:
+  /lecturers:
+    get:
+      summary: Retrieve a list of all lecturers
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Add a new lecturer
+      requestBody:
+        description: Lecturer data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+              default:
+          $ref: "#/components/responses/ErrorResponse"
+      responses:
+        '201':
+          description: Successfully created a lecturer
+  /lecturers/{staff_number}:
+    get:
+      summary: Retrieve the details of a specific lecturer by their staff number
+      operationId: getlecturerByStaffNumber
+      parameters:
+        - name: staff_number
+          in: path
+          description: Get Lecturer By Staff Number
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      summary: Update an existing lecturer's information
+      parameters:
+        - name: staff_number
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Lecturer data
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturer'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a lecturer's record by their staff number
+      parameters:
+        - name: staff_number
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+  /lecturers/course/{course_code}:
+    get:
+      summary: Retrieve all the lecturers that teach a certain course
+      parameters:
+        - name: course_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /lecturers/office/{office_number}:
+    get:
+      summary: Retrieve all the lecturers that sit in the same office
+      parameters:
+        - name: office_number
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Lecturer:
+      type: object
+      properties:
+        staff_number:
+          type: string
+        office_number:
+          type: string
+        staff_name:
+          type: string
+        title:
+          type: string
+        courses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+    Course:
+      type: object
+      properties:
+        course_name:
+          type: string
+        course_code:
+          type: string
+        nqf_level:
+          type: integer
