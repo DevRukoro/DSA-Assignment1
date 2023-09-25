@@ -1,0 +1,8 @@
+# Dependencies.toml
+
+[dependencies]
+ballerina/grpc = "2201.8.0"
+ballerinax/grpc = "2201.8.0"
+
+[platform]
+target = "java11"
